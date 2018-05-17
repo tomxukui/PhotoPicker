@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -28,6 +29,8 @@ import static me.iwf.photopicker.PhotoPicker.EXTRA_SHOW_GIF;
 import static me.iwf.photopicker.PhotoPicker.KEY_SELECTED_PHOTOS;
 
 public class PhotoPickerActivity extends AppCompatActivity {
+
+    private TextView tv_title;
 
     private PhotoPickerFragment pickerFragment;
     private ImagePagerFragment imagePagerFragment;
@@ -63,9 +66,13 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private void initActionBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("选择图片");
+
+        tv_title = findViewById(R.id.tv_title);
+        tv_title.setText(getResources().getString(R.string.__picker_title));
+
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);//不显示默认标题
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回键
         }
     }
 
@@ -102,9 +109,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
                     return false;
                 }
                 if (mMaxCount > 1) {
-                    menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, selectedItemCount, mMaxCount));
+                    tv_title.setText(getString(R.string.__picker_title_with_count, selectedItemCount, mMaxCount));
                 } else {
-                    menuDoneItem.setTitle(getString(R.string.__picker_done));
+                    tv_title.setText(getString(R.string.__picker_title));
                 }
 
                 return true;
@@ -147,9 +154,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 int size = photos == null ? 0 : photos.size();
                 menuDoneItem.setEnabled(size > 0);
                 if (mMaxCount > 1) {
-                    menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, size, mMaxCount));
+                    tv_title.setText(getString(R.string.__picker_title_with_count, size, mMaxCount));
                 } else {
-                    menuDoneItem.setTitle(getString(R.string.__picker_done));
+                    tv_title.setText(getString(R.string.__picker_title));
                 }
 
             } else if (imagePagerFragment != null && imagePagerFragment.isResumed()) {//预览界面 完成总是可点的，没选就把默认当前图片
@@ -165,8 +172,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             menuDoneItem = menu.findItem(R.id.action_done);
             if (mOriginalPhotos != null && mOriginalPhotos.size() > 0) {
                 menuDoneItem.setEnabled(true);
-                menuDoneItem.setTitle(
-                        getString(R.string.__picker_done_with_count, mOriginalPhotos.size(), mMaxCount));
+                tv_title.setText(getString(R.string.__picker_title_with_count, mOriginalPhotos.size(), mMaxCount));
             } else {
                 menuDoneItem.setEnabled(false);
             }

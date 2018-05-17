@@ -6,7 +6,7 @@
     <item
         android:id="@+id/action_done"
         android:orderInCategory="100"
-        android:title="完成"
+        android:title="@string/__picker_done"
         app:showAsAction="always" />
 
 </menu>
