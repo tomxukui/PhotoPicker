@@ -1,39 +1,32 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.tomxukui'
 
 android {
-  compileSdkVersion 26
-  buildToolsVersion '26.0.2'
-  resourcePrefix "__picker_"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
 
-  dexOptions {
-    javaMaxHeapSize "4g"
-  }
-  defaultConfig {
-    minSdkVersion 14
-    targetSdkVersion 26
-  }
-  lintOptions {
-    abortOnError false
-  }
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode 2
+        versionName "1.0.1"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
-ext {
-  supportLibVersion = "26.1.0"
-}
+
 dependencies {
-  compile "com.android.support:support-v4:$supportLibVersion"
-  compile "com.android.support:appcompat-v7:$supportLibVersion"
-  compile "com.android.support:design:$supportLibVersion"
-  compile "com.android.support:recyclerview-v7:$supportLibVersion"
-  compile "com.android.support:support-annotations:$supportLibVersion"
-  compile "com.github.bumptech.glide:glide:4.1.1"
-}
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["recyclerview-v7"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["support-annotations"]
 
-apply plugin: 'com.novoda.bintray-release'
-publish {
-  userOrg = 'donglua'
-  groupId = 'me.iwf.photopicker'
-  artifactId = 'PhotoPicker'
-  publishVersion = '0.9.12'
-  desc = 'Photo Picker'
-  website = 'https://github.com/donglua/PhotoPicker'
+    implementation "com.github.bumptech.glide:glide:4.1.1"
 }
