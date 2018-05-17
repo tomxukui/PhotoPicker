@@ -4,7 +4,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.ablingbling.app.logger"
+        applicationId "me.iwf.PhotoPickerDemo"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 16
@@ -26,6 +26,6 @@ dependencies {
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["support-annotations"]
 
-    implementation project(':PhotoPicker')
+    implementation project(':photopicker')
     implementation "com.github.bumptech.glide:glide:4.1.1"
 }
