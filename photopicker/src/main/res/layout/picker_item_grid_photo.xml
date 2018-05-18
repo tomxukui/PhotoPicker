@@ -9,8 +9,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:background="@drawable/__picker_photo_bg"
-        android:padding="1dip"
+        android:background="@drawable/picker_photo_bg"
+        android:padding="1dp"
         android:scaleType="centerCrop" />
 
     <ImageView
@@ -20,10 +20,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
-        android:paddingBottom="20dip"
-        android:paddingLeft="20dip"
-        android:paddingRight="10dip"
-        android:paddingTop="10dip"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:src="@drawable/__picker_checkbox_bg" />
 
 </me.iwf.photopicker.widget.SquareItemLayout>

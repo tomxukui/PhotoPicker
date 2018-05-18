@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/__picker_bg_material_item"
+    android:background="@drawable/picker_bg_material_item"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -24,13 +24,13 @@
             android:id="@+id/tv_dir_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/__picker_text_40" />
+            android:textColor="#282828" />
 
         <TextView
             android:id="@+id/tv_dir_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/__picker_text_80" />
+            android:textColor="#505050" />
 
     </LinearLayout>
 
