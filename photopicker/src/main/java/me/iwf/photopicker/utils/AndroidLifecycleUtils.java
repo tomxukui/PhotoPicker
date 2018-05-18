@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 public class AndroidLifecycleUtils {
+
     public static boolean canLoadImage(Fragment fragment) {
         if (fragment == null) {
             return true;
@@ -35,13 +36,12 @@ public class AndroidLifecycleUtils {
             return true;
         }
 
-        boolean destroyed = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 &&
-                activity.isDestroyed();
-
+        boolean destroyed = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed();
         if (destroyed || activity.isFinishing()) {
             return false;
         }
 
         return true;
     }
+
 }
