@@ -1,11 +1,9 @@
 package me.iwf.photopicker;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -42,6 +40,12 @@ public class PhotoPagerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewPager.removeOnPageChangeListener(mOnPageChangeListener);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.__picker_menu_preview, menu);
         menu.findItem(R.id.action_delete).setVisible(mShowDelete);
@@ -67,22 +71,11 @@ public class PhotoPagerActivity extends AppCompatActivity {
             final int index = viewPager.getCurrentItem();
 
             if (mPhotoPaths.size() <= 1) {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.__picker_confirm_to_delete)
-                        .setPositiveButton(R.string.__picker_yes, new DialogInterface.OnClickListener() {
+                mPhotoPaths.remove(index);
+                mPagerAdapter.notifyDataSetChanged();
 
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                mPhotoPaths.remove(index);
-                                mPagerAdapter.notifyDataSetChanged();
+                finish();
 
-                                finish();
-                            }
-
-                        })
-                        .setNegativeButton(R.string.__picker_cancel, null)
-                        .show();
             } else {
                 Snackbar.make(viewPager, R.string.__picker_deleted_a_photo, Snackbar.LENGTH_SHORT).show();
 
@@ -112,7 +105,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tv_title = findViewById(R.id.tv_title);
-        tv_title.setText("图片");
+        setTitleView(mCurrentIndex);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);//不显示默认标题
@@ -123,8 +116,30 @@ public class PhotoPagerActivity extends AppCompatActivity {
     private void initView() {
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(mPagerAdapter);
-        viewPager.setOffscreenPageLimit(5);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(mCurrentIndex);
+        viewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
+
+    private void setTitleView(int pos) {
+        tv_title.setText(String.format("图片(%d/%d)", pos + 1, mPhotoPaths.size()));
+    }
+
+    private final ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            setTitleView(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+
+    };
 
 }
