@@ -83,11 +83,13 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.action_done) {
             ArrayList<String> selectedPhotos = mPhotoGridAdapter.getSelectedPhotoPaths();
-            if (selectedPhotos != null && selectedPhotos.size() > 0) {
-                Intent intent = new Intent();
-                intent.putStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS, selectedPhotos);
-                setResult(RESULT_OK, intent);
+            if (selectedPhotos == null) {
+                selectedPhotos = new ArrayList<>();
             }
+
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS, selectedPhotos);
+            setResult(RESULT_OK, intent);
             finish();
             return true;
         }
