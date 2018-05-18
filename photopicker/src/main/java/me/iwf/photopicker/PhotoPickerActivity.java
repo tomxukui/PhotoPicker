@@ -62,7 +62,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.__picker_activity_photo_picker);
+        setContentView(R.layout.picker_activity_photo_picker);
         initData();
         initActionBar();
         initView();

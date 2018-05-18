@@ -33,7 +33,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.__picker_activity_photo_pager);
+        setContentView(R.layout.picker_activity_photo_pager);
         initData();
         initActionBar();
         initView();

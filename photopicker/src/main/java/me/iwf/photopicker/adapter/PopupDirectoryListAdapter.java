@@ -53,7 +53,7 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater mLayoutInflater = LayoutInflater.from(parent.getContext());
-            convertView = mLayoutInflater.inflate(R.layout.__picker_item_directory, parent, false);
+            convertView = mLayoutInflater.inflate(R.layout.picker_item_list_popup_directory, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
 

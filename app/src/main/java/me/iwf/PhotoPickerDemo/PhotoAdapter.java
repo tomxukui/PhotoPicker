@@ -45,7 +45,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 itemView = inflater.inflate(me.iwf.PhotoPickerDemo.R.layout.item_add, parent, false);
                 break;
             case TYPE_PHOTO:
-                itemView = inflater.inflate(R.layout.__picker_item_photo, parent, false);
+                itemView = inflater.inflate(R.layout.picker_item_grid_photo, parent, false);
                 break;
         }
         return new PhotoViewHolder(itemView);
