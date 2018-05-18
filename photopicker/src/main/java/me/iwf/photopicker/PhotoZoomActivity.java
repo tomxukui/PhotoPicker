@@ -26,7 +26,7 @@ public class PhotoZoomActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.__picker_activity_photo_zoom);
+        setContentView(R.layout.picker_activity_photo_zoom);
         initData();
         initView();
     }
@@ -37,16 +37,8 @@ public class PhotoZoomActivity extends AppCompatActivity {
 
     private void initView() {
         iv_img = findViewById(R.id.iv_img);
-
-        Uri uri;
-        if (mImgPath.startsWith("http")) {
-            uri = Uri.parse(mImgPath);
-
-        } else {
-            uri = Uri.fromFile(new File(mImgPath));
-        }
-
-        final RequestOptions options = new RequestOptions();
+        Uri uri = (mImgPath.startsWith("http") ? Uri.parse(mImgPath) : Uri.fromFile(new File(mImgPath)));
+        RequestOptions options = new RequestOptions();
         options.dontAnimate()
                 .dontTransform()
                 .override(800, 800)
