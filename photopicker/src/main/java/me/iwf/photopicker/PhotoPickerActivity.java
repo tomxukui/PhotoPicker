@@ -44,12 +44,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView tv_dir;
 
-    private ImageCaptureManager mCaptureManager;
     private PhotoGridAdapter mPhotoGridAdapter;
+    private PopupDirectoryListAdapter mDirPopupListAdapter;//所有photos的路径
     private ListPopupWindow mListPopupWindow;
     private RequestManager mGlideRequestManager;
+    private ImageCaptureManager mCaptureManager;
 
-    private PopupDirectoryListAdapter mDirPopupListAdapter;//所有photos的路径
     private List<PhotoDirectory> mDirectories;//传入的已选照片
     private ArrayList<String> mOriginalPhotos;
 

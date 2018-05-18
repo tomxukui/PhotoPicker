@@ -27,8 +27,8 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
     private RequestManager mGlide;
 
     public PopupDirectoryListAdapter(RequestManager glide, List<PhotoDirectory> directories) {
-        mDirectories = directories;
         mGlide = glide;
+        mDirectories = directories;
 
         if (mDirectories == null) {
             mDirectories = new ArrayList<>();
@@ -61,6 +61,7 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        
         holder.bindData(parent.getContext(), mDirectories.get(position));
         return convertView;
     }
