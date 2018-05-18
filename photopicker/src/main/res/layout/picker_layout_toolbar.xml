@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
     app:popupTheme="?attr/actionBarPopupTheme">
 
@@ -16,7 +15,7 @@
         android:layout_gravity="center"
         android:ellipsize="end"
         android:singleLine="true"
-        android:textColor="#ffffff"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp" />
 
 </app:android.support.v7.widget.Toolbar>
