@@ -81,6 +81,8 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
                 mPhotoPaths.remove(index);
                 mPagerAdapter.notifyDataSetChanged();
+
+                setTitleView(viewPager.getCurrentItem());
             }
 
             return true;
