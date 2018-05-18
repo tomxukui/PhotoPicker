@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import me.iwf.photopicker.widget.TouchImageView;
 
 /**
@@ -37,20 +38,24 @@ public class PhotoZoomActivity extends AppCompatActivity {
 
     private void initView() {
         iv_img = findViewById(R.id.iv_img);
-        Uri uri = (mImgPath.startsWith("http") ? Uri.parse(mImgPath) : Uri.fromFile(new File(mImgPath)));
 
-        RequestOptions options = new RequestOptions();
+        boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(this);
 
-        options.dontAnimate()
-                .dontTransform()
-                .override(800, 800)
-                .error(R.mipmap.picker_ic_broken_img);
+        if (canLoadImage) {
+            Uri uri = (mImgPath.startsWith("http") ? Uri.parse(mImgPath) : Uri.fromFile(new File(mImgPath)));
 
-        Glide.with(this)
-                .setDefaultRequestOptions(options)
-                .load(uri)
-                .thumbnail(0.1f)
-                .into(iv_img);
+            RequestOptions options = new RequestOptions()
+                    .dontAnimate()
+                    .dontTransform()
+                    .override(800, 800)
+                    .error(R.mipmap.picker_ic_broken_img);
+
+            Glide.with(this)
+                    .setDefaultRequestOptions(options)
+                    .load(uri)
+                    .thumbnail(0.1f)
+                    .into(iv_img);
+        }
     }
 
 }
