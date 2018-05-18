@@ -37,7 +37,7 @@ import me.iwf.photopicker.utils.MediaStoreHelper;
 
 public class PhotoPickerActivity extends AppCompatActivity {
 
-    private static final int COUNT_MAX = 4;//目录弹出框的一次最多显示的目录数目
+    private static final int POPUP_MAX_COUNT = 4;//目录弹出框的一次最多显示的目录数目
     private static final int SCROLL_THRESHOLD = 30;
 
     private TextView tv_title;
@@ -45,12 +45,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private TextView tv_dir;
 
     private PhotoGridAdapter mPhotoGridAdapter;
-    private PopupDirectoryListAdapter mDirPopupListAdapter;//所有photos的路径
+    private PopupDirectoryListAdapter mDirPopupListAdapter;
     private ListPopupWindow mListPopupWindow;
     private RequestManager mGlideRequestManager;
     private ImageCaptureManager mCaptureManager;
 
-    private List<PhotoDirectory> mDirectories;//传入的已选照片
+    private List<PhotoDirectory> mDirectories;
     private ArrayList<String> mOriginalPhotos;
 
     private boolean mShowCamera;
@@ -323,8 +323,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             return;
         }
 
-        int count = mDirPopupListAdapter.getCount();
-        count = count < COUNT_MAX ? count : COUNT_MAX;
+        int count = Math.min(mDirPopupListAdapter.getCount(), POPUP_MAX_COUNT);
 
         if (mListPopupWindow != null) {
             mListPopupWindow.setHeight(count * getResources().getDimensionPixelOffset(R.dimen.picker_item_directory_height));
