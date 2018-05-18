@@ -91,7 +91,6 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
         return holder;
     }
 
-
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, int position) {
         if (getItemViewType(position) == ITEM_TYPE_PHOTO) {
@@ -111,8 +110,8 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
                 options.centerCrop()
                         .dontAnimate()
                         .override(imageSize, imageSize)
-                        .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-                        .error(R.drawable.__picker_ic_broken_image_black_48dp);
+                        .placeholder(R.drawable.picker_ic_placeholder_img)
+                        .error(R.drawable.picker_ic_broken_img);
 
                 glide.setDefaultRequestOptions(options)
                         .load(new File(photo.getPath()))
@@ -156,10 +155,9 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
             });
 
         } else {
-            holder.ivPhoto.setImageResource(R.drawable.__picker_camera);
+            holder.ivPhoto.setImageResource(R.drawable.picker_ic_camera);
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -171,28 +169,24 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
         return photosCount;
     }
 
-
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
         private ImageView ivPhoto;
         private View vSelected;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
-            ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
+            ivPhoto = itemView.findViewById(R.id.iv_photo);
             vSelected = itemView.findViewById(R.id.v_selected);
         }
     }
-
 
     public void setOnItemCheckListener(OnItemCheckListener onItemCheckListener) {
         this.onItemCheckListener = onItemCheckListener;
     }
 
-
     public void setOnPhotoClickListener(OnPhotoClickListener onPhotoClickListener) {
         this.onPhotoClickListener = onPhotoClickListener;
     }
-
 
     public void setOnCameraClickListener(View.OnClickListener onCameraClickListener) {
         this.onCameraClickListener = onCameraClickListener;

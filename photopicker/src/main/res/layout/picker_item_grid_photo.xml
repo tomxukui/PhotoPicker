@@ -24,6 +24,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:src="@drawable/__picker_checkbox_bg" />
+        android:src="@drawable/picker_check" />
 
 </me.iwf.photopicker.widget.SquareItemLayout>

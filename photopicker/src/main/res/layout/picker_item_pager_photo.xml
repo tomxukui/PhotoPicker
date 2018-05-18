@@ -4,4 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:src="@drawable/__picker_ic_photo_black_48dp" />
+    android:src="@drawable/picker_ic_placeholder_img" />

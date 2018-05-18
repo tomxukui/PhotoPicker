@@ -42,8 +42,8 @@ public class PhotoZoomActivity extends AppCompatActivity {
         options.dontAnimate()
                 .dontTransform()
                 .override(800, 800)
-                .placeholder(R.drawable.__picker_ic_photo_black_48dp)
-                .error(R.drawable.__picker_ic_broken_image_black_48dp);
+                .placeholder(R.drawable.picker_ic_placeholder_img)
+                .error(R.drawable.picker_ic_broken_img);
         Glide.with(this)
                 .setDefaultRequestOptions(options)
                 .load(uri)
