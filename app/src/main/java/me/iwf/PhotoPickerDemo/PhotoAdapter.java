@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestOptions;
 import java.io.File;
 import java.util.ArrayList;
 
-import me.iwf.photopicker.R;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 
 /**
@@ -42,7 +41,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         View itemView = null;
         switch (viewType) {
             case TYPE_ADD:
-                itemView = inflater.inflate(me.iwf.PhotoPickerDemo.R.layout.item_add, parent, false);
+                itemView = inflater.inflate(R.layout.item_add, parent, false);
                 break;
             case TYPE_PHOTO:
                 itemView = inflater.inflate(R.layout.picker_item_grid_photo, parent, false);
@@ -61,7 +60,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             if (canLoadImage) {
                 final RequestOptions options = new RequestOptions();
                 options.centerCrop()
-                        .placeholder(R.drawable.picker_ic_placeholder_img)
                         .error(R.drawable.picker_ic_broken_img);
                 Glide.with(mContext)
                         .load(uri)
@@ -87,6 +85,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     }
 
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
+
         private ImageView ivPhoto;
         private View vSelected;
 

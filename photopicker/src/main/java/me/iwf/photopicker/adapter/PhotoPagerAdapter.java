@@ -34,10 +34,8 @@ public class PhotoPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         final Context context = container.getContext();
-        View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.picker_item_pager_photo, container, false);
-
-        final ImageView imageView = itemView.findViewById(R.id.iv_pager);
+        View itemView = LayoutInflater.from(context).inflate(R.layout.picker_item_pager_photo, container, false);
+        final ImageView iv_img = itemView.findViewById(R.id.iv_img);
 
         final String path = paths.get(position);
         final Uri uri;
@@ -54,14 +52,15 @@ public class PhotoPagerAdapter extends PagerAdapter {
             options.dontAnimate()
                     .dontTransform()
                     .override(800, 800)
-                    .placeholder(R.drawable.picker_ic_placeholder_img)
                     .error(R.drawable.picker_ic_broken_img);
+
             mGlide.setDefaultRequestOptions(options).load(uri)
                     .thumbnail(0.1f)
-                    .into(imageView);
+                    .into(iv_img);
         }
 
-        imageView.setOnClickListener(new View.OnClickListener() {
+        iv_img.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 if (context instanceof Activity) {
@@ -70,10 +69,10 @@ public class PhotoPagerAdapter extends PagerAdapter {
                     }
                 }
             }
+
         });
-
+        
         container.addView(itemView);
-
         return itemView;
     }
 

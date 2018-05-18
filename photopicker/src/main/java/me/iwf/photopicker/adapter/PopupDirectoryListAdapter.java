@@ -82,14 +82,15 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
             options.dontAnimate()
                     .dontTransform()
                     .override(800, 800)
-                    .placeholder(R.drawable.picker_ic_placeholder_img)
                     .error(R.drawable.picker_ic_broken_img);
+
             mGlide.setDefaultRequestOptions(options)
                     .load(directory.getCoverPath())
                     .thumbnail(0.1f)
                     .into(ivCover);
 
             tvName.setText(directory.getName());
+
             tvCount.setText(String.format("%d张", directory.getPhotos().size()));
         }
 

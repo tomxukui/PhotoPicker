@@ -38,12 +38,14 @@ public class PhotoZoomActivity extends AppCompatActivity {
     private void initView() {
         iv_img = findViewById(R.id.iv_img);
         Uri uri = (mImgPath.startsWith("http") ? Uri.parse(mImgPath) : Uri.fromFile(new File(mImgPath)));
+
         RequestOptions options = new RequestOptions();
+
         options.dontAnimate()
                 .dontTransform()
                 .override(800, 800)
-                .placeholder(R.drawable.picker_ic_placeholder_img)
                 .error(R.drawable.picker_ic_broken_img);
+
         Glide.with(this)
                 .setDefaultRequestOptions(options)
                 .load(uri)
