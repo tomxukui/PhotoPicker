@@ -77,7 +77,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
                 finish();
 
             } else {
-                Snackbar.make(viewPager, R.string.__picker_deleted_a_photo, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(viewPager, "删除了一张图片", Snackbar.LENGTH_SHORT).show();
 
                 mPhotoPaths.remove(index);
                 mPagerAdapter.notifyDataSetChanged();

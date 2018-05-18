@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.PhotoPicker;
-import me.iwf.photopicker.R;
 import me.iwf.photopicker.entity.PhotoDirectory;
 
 import static android.provider.BaseColumns._ID;
@@ -27,7 +26,6 @@ import static android.provider.MediaStore.MediaColumns.SIZE;
 public class MediaStoreHelper {
 
     public final static int INDEX_ALL_PHOTOS = 0;
-
 
     public static void getPhotoDirs(FragmentActivity activity, Bundle args, PhotosResultCallback resultCallback) {
         activity.getSupportLoaderManager()
@@ -57,7 +55,7 @@ public class MediaStoreHelper {
 
             List<PhotoDirectory> directories = new ArrayList<>();
             PhotoDirectory photoDirectoryAll = new PhotoDirectory();
-            photoDirectoryAll.setName(context.getString(R.string.__picker_all_image));
+            photoDirectoryAll.setName("所有图片");
             photoDirectoryAll.setId("ALL");
 
             while (data.moveToNext()) {
@@ -101,7 +99,6 @@ public class MediaStoreHelper {
 
         }
     }
-
 
     public interface PhotosResultCallback {
         void onResultCallback(List<PhotoDirectory> directories);

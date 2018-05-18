@@ -163,7 +163,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 }
 
                 if (selectedItemCount > mMaxCount) {
-                    Toast.makeText(PhotoPickerActivity.this, getString(R.string.__picker_over_max_count_tips, mMaxCount), Toast.LENGTH_LONG).show();
+                    Toast.makeText(PhotoPickerActivity.this, String.format("最多可以选择%d张", mMaxCount), Toast.LENGTH_LONG).show();
                     return true;
                 }
 
@@ -302,10 +302,10 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     private void setTitleView(int count) {
         if (mMaxCount > 1) {
-            tv_title.setText(getString(R.string.__picker_title_with_count, count, mMaxCount));
+            tv_title.setText(String.format("选择图片(%d/%d)", count, mMaxCount));
 
         } else {
-            tv_title.setText(getString(R.string.__picker_title));
+            tv_title.setText("选择图片");
         }
     }
 
