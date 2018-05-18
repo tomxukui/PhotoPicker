@@ -18,7 +18,6 @@ import me.iwf.photopicker.entity.PhotoDirectory;
  */
 public class PopupDirectoryListAdapter extends BaseAdapter {
 
-
   private List<PhotoDirectory> directories = new ArrayList<>();
   private RequestManager glide;
 

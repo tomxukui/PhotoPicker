@@ -52,7 +52,7 @@ public class ImagePagerFragment extends Fragment {
     super.onResume();
     if(getActivity() instanceof PhotoPickerActivity){
       PhotoPickerActivity photoPickerActivity = (PhotoPickerActivity) getActivity();
-      photoPickerActivity.updateTitleDoneItem();
+//      photoPickerActivity.updateTitleDoneItem();
     }
   }
 
