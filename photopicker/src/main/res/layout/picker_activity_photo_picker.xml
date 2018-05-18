@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="所有图片"
+        android:text="全部图片"
         android:textColor="@android:color/white"
         android:textSize="15sp" />
 

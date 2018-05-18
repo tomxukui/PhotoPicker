@@ -55,7 +55,7 @@ public class MediaStoreHelper {
 
             List<PhotoDirectory> directories = new ArrayList<>();
             PhotoDirectory photoDirectoryAll = new PhotoDirectory();
-            photoDirectoryAll.setName("所有图片");
+            photoDirectoryAll.setName("全部图片");
             photoDirectoryAll.setId("ALL");
 
             while (data.moveToNext()) {
