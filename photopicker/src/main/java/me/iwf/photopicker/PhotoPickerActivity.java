@@ -34,7 +34,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     private PhotoPickerFragment pickerFragment;
     private ImagePagerFragment imagePagerFragment;
-    private MenuItem menuDoneItem;
 
     private boolean mShowCamera;
     private boolean mShowGif;
@@ -91,9 +90,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
             @Override
             public boolean onItemCheck(int position, Photo photo, final int selectedItemCount) {
-
-                menuDoneItem.setEnabled(selectedItemCount > 0);
-
                 if (mMaxCount <= 1) {
                     List<String> photos = pickerFragment.getPhotoGridAdapter().getSelectedPhotos();
                     if (!photos.contains(photo.getPath())) {
@@ -152,15 +148,11 @@ public class PhotoPickerActivity extends AppCompatActivity {
             if (pickerFragment != null && pickerFragment.isResumed()) {
                 List<String> photos = pickerFragment.getPhotoGridAdapter().getSelectedPhotos();
                 int size = photos == null ? 0 : photos.size();
-                menuDoneItem.setEnabled(size > 0);
                 if (mMaxCount > 1) {
                     tv_title.setText(getString(R.string.__picker_title_with_count, size, mMaxCount));
                 } else {
                     tv_title.setText(getString(R.string.__picker_title));
                 }
-
-            } else if (imagePagerFragment != null && imagePagerFragment.isResumed()) {//预览界面 完成总是可点的，没选就把默认当前图片
-                menuDoneItem.setEnabled(true);
             }
         }
     }
@@ -169,12 +161,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mMenuIsInflated) {
             getMenuInflater().inflate(R.menu.__picker_menu_picker, menu);
-            menuDoneItem = menu.findItem(R.id.action_done);
             if (mOriginalPhotos != null && mOriginalPhotos.size() > 0) {
-                menuDoneItem.setEnabled(true);
                 tv_title.setText(getString(R.string.__picker_title_with_count, mOriginalPhotos.size(), mMaxCount));
-            } else {
-                menuDoneItem.setEnabled(false);
             }
             mMenuIsInflated = true;
             return true;
@@ -197,8 +185,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             }
             //当在列表没有选择图片，又在详情界面时默认选择当前图片
             if (selectedPhotos.size() <= 0) {
-                if (imagePagerFragment != null && imagePagerFragment.isResumed()) {
-                    // 预览界面
+                if (imagePagerFragment != null && imagePagerFragment.isResumed()) {// 预览界面
                     selectedPhotos = imagePagerFragment.getCurrentPath();
                 }
             }
@@ -207,7 +194,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 setResult(RESULT_OK, intent);
                 finish();
             }
-
             return true;
         }
 
