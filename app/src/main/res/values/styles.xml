@@ -16,11 +16,4 @@
         <item name="actionBarTheme">@style/ActionBarTheme</item>
     </style>
 
-    <!--<style name="AppTheme.NoActionBar">-->
-    <!--<item name="actionBarTheme">@style/actionBarTheme</item>-->
-    <!--<item name="colorPrimary">#ffffff</item>-->
-    <!--<item name="actionBarSize">@dimen/actionBarSize</item>-->
-    <!--<item name="colorPrimaryDark">#CCa500</item>-->
-    <!--</style>-->
-
 </resources>
