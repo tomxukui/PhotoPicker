@@ -13,7 +13,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.R;
@@ -24,7 +23,7 @@ import me.iwf.photopicker.utils.AndroidLifecycleUtils;
  */
 public class PhotoPagerAdapter extends PagerAdapter {
 
-    private List<String> paths = new ArrayList<>();
+    private List<String> paths;
     private RequestManager mGlide;
 
     public PhotoPagerAdapter(RequestManager glide, List<String> paths) {
@@ -38,7 +37,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
         View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.__picker_picker_item_pager, container, false);
 
-        final ImageView imageView = (ImageView) itemView.findViewById(R.id.iv_pager);
+        final ImageView imageView = itemView.findViewById(R.id.iv_pager);
 
         final String path = paths.get(position);
         final Uri uri;
@@ -78,18 +77,15 @@ public class PhotoPagerAdapter extends PagerAdapter {
         return itemView;
     }
 
-
     @Override
     public int getCount() {
         return paths.size();
     }
 
-
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
     }
-
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {

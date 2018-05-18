@@ -2,156 +2,129 @@ package me.iwf.photopicker;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import java.util.List;
-import me.iwf.photopicker.fragment.ImagePagerFragment;
+import android.widget.TextView;
 
-import static me.iwf.photopicker.PhotoPicker.KEY_SELECTED_PHOTOS;
-import static me.iwf.photopicker.PhotoPreview.EXTRA_CURRENT_ITEM;
-import static me.iwf.photopicker.PhotoPreview.EXTRA_PHOTOS;
-import static me.iwf.photopicker.PhotoPreview.EXTRA_SHOW_DELETE;
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+import me.iwf.photopicker.adapter.PhotoPagerAdapter;
 
 /**
  * Created by donglua on 15/6/24.
  */
 public class PhotoPagerActivity extends AppCompatActivity {
 
-  private ImagePagerFragment pagerFragment;
+    private TextView tv_title;
+    private ViewPager viewPager;
 
-  private ActionBar actionBar;
-  private boolean showDelete;
+    private PhotoPagerAdapter mPagerAdapter;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    private int mCurrentIndex;
+    private ArrayList<String> mPhotoPaths;
+    private boolean mShowDelete;
 
-    setContentView(R.layout.__picker_activity_photo_pager);
-
-    int currentItem = getIntent().getIntExtra(EXTRA_CURRENT_ITEM, 0);
-    List<String> paths = getIntent().getStringArrayListExtra(EXTRA_PHOTOS);
-    showDelete = getIntent().getBooleanExtra(EXTRA_SHOW_DELETE, true);
-
-    if (pagerFragment == null) {
-      pagerFragment =
-          (ImagePagerFragment) getSupportFragmentManager().findFragmentById(R.id.photoPagerFragment);
-    }
-    pagerFragment.setPhotos(paths, currentItem);
-
-    Toolbar mToolbar = findViewById(R.id.toolbar);
-    setSupportActionBar(mToolbar);
-
-    actionBar = getSupportActionBar();
-
-    if (actionBar != null) {
-      actionBar.setDisplayHomeAsUpEnabled(true);
-      updateActionBarTitle();
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        actionBar.setElevation(25);
-      }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.__picker_activity_photo_pager);
+        initData();
+        initActionBar();
+        initView();
     }
 
-
-    pagerFragment.getViewPager().addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-      @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        updateActionBarTitle();
-      }
-    });
-  }
-
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    if (showDelete){
-      getMenuInflater().inflate(R.menu.__picker_menu_preview, menu);
-    }
-    return true;
-  }
-
-
-  @Override public void onBackPressed() {
-
-    Intent intent = new Intent();
-    intent.putExtra(KEY_SELECTED_PHOTOS, pagerFragment.getPaths());
-    setResult(RESULT_OK, intent);
-    finish();
-
-    super.onBackPressed();
-  }
-
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-
-    if (item.getItemId() == android.R.id.home) {
-      onBackPressed();
-      return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.__picker_menu_preview, menu);
+        menu.findItem(R.id.action_delete).setVisible(mShowDelete);
+        return true;
     }
 
-    if (item.getItemId() == R.id.delete) {
-      final int index = pagerFragment.getCurrentItem();
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(PhotoPicker.KEY_SELECTED_PHOTOS, mPhotoPaths);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
 
-      final String deletedPath =  pagerFragment.getPaths().get(index);
-
-      Snackbar snackbar = Snackbar.make(pagerFragment.getView(), R.string.__picker_deleted_a_photo,
-          Snackbar.LENGTH_LONG);
-
-      if (pagerFragment.getPaths().size() <= 1) {
-
-        // show confirm dialog
-        new AlertDialog.Builder(this)
-            .setTitle(R.string.__picker_confirm_to_delete)
-            .setPositiveButton(R.string.__picker_yes, new DialogInterface.OnClickListener() {
-              @Override public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                pagerFragment.getPaths().remove(index);
-                pagerFragment.getViewPager().getAdapter().notifyDataSetChanged();
-                onBackPressed();
-              }
-            })
-            .setNegativeButton(R.string.__picker_cancel, new DialogInterface.OnClickListener() {
-              @Override public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-              }
-            })
-            .show();
-
-      } else {
-
-        snackbar.show();
-
-        pagerFragment.getPaths().remove(index);
-        pagerFragment.getViewPager().getAdapter().notifyDataSetChanged();
-      }
-
-      snackbar.setAction(R.string.__picker_undo, new View.OnClickListener() {
-        @Override public void onClick(View view) {
-          if (pagerFragment.getPaths().size() > 0) {
-            pagerFragment.getPaths().add(index, deletedPath);
-          } else {
-            pagerFragment.getPaths().add(deletedPath);
-          }
-          pagerFragment.getViewPager().getAdapter().notifyDataSetChanged();
-          pagerFragment.getViewPager().setCurrentItem(index, true);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
-      });
 
-      return true;
+        if (item.getItemId() == R.id.action_delete) {
+            final int index = viewPager.getCurrentItem();
+
+            if (mPhotoPaths.size() <= 1) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.__picker_confirm_to_delete)
+                        .setPositiveButton(R.string.__picker_yes, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                mPhotoPaths.remove(index);
+                                mPagerAdapter.notifyDataSetChanged();
+
+                                finish();
+                            }
+
+                        })
+                        .setNegativeButton(R.string.__picker_cancel, null)
+                        .show();
+            } else {
+                Snackbar.make(viewPager, R.string.__picker_deleted_a_photo, Snackbar.LENGTH_SHORT).show();
+
+                mPhotoPaths.remove(index);
+                mPagerAdapter.notifyDataSetChanged();
+            }
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
-    return super.onOptionsItemSelected(item);
-  }
+    private void initData() {
+        mCurrentIndex = getIntent().getIntExtra(PhotoPreview.EXTRA_CURRENT_ITEM, 0);
+        mPhotoPaths = getIntent().getStringArrayListExtra(PhotoPreview.EXTRA_PHOTOS);
+        mShowDelete = getIntent().getBooleanExtra(PhotoPreview.EXTRA_SHOW_DELETE, true);
+        if (mPhotoPaths == null) {
+            mPhotoPaths = new ArrayList<>();
+        }
 
-  public void updateActionBarTitle() {
-    if (actionBar != null) actionBar.setTitle(
-        getString(R.string.__picker_image_index, pagerFragment.getViewPager().getCurrentItem() + 1,
-            pagerFragment.getPaths().size()));
-  }
+        mPagerAdapter = new PhotoPagerAdapter(Glide.with(this), mPhotoPaths);
+    }
+
+    private void initActionBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        tv_title = findViewById(R.id.tv_title);
+        tv_title.setText("图片");
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);//不显示默认标题
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回键
+        }
+    }
+
+    private void initView() {
+        viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setOffscreenPageLimit(5);
+        viewPager.setCurrentItem(mCurrentIndex);
+    }
+
 }
