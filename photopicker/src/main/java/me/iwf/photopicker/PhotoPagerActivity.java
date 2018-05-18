@@ -55,7 +55,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(PhotoPicker.KEY_SELECTED_PHOTOS, mPhotoPaths);
+        intent.putExtra(PhotoPreview.EXTRA_PHOTO_PATHS, mPhotoPaths);
         setResult(RESULT_OK, intent);
         super.finish();
     }
@@ -91,7 +91,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
     private void initData() {
         mCurrentIndex = getIntent().getIntExtra(PhotoPreview.EXTRA_CURRENT_ITEM, 0);
-        mPhotoPaths = getIntent().getStringArrayListExtra(PhotoPreview.EXTRA_PHOTOS);
+        mPhotoPaths = getIntent().getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
         mShowDelete = getIntent().getBooleanExtra(PhotoPreview.EXTRA_SHOW_DELETE, true);
         if (mPhotoPaths == null) {
             mPhotoPaths = new ArrayList<>();

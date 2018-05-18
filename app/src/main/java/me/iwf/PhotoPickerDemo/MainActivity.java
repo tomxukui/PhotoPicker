@@ -7,106 +7,137 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 
 public class MainActivity extends AppCompatActivity {
 
-  private PhotoAdapter photoAdapter;
+    private static final int EXTRA_PICK = 1;
+    private static final int EXTRA_PREVIEW = 2;
 
-  private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private PhotoAdapter photoAdapter;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    private ArrayList<String> selectedPhotos = new ArrayList<>();
 
-    RecyclerView recyclerView = findViewById(R.id.recycler_view);
-    photoAdapter = new PhotoAdapter(this, selectedPhotos);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-    recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
-    recyclerView.setAdapter(photoAdapter);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        photoAdapter = new PhotoAdapter(this, selectedPhotos);
 
-    findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        PhotoPicker.builder()
-                .setPhotoCount(9)
-                .setGridColumnCount(4)
-                .start(MainActivity.this);
-      }
-    });
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(4, OrientationHelper.VERTICAL));
+        recyclerView.setAdapter(photoAdapter);
 
-    findViewById(R.id.button_no_camera).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        PhotoPicker.builder()
-                .setPhotoCount(7)
-                .setShowCamera(false)
-                .setPreviewEnabled(false)
-                .start(MainActivity.this);
-      }
-    });
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 
-    findViewById(R.id.button_one_photo).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        PhotoPicker.builder()
-                .setPhotoCount(1)
-                .start(MainActivity.this);
-      }
-    });
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setPhotoCount(9)
+                        .setGridColumnCount(4)
+                        .start(MainActivity.this, EXTRA_PICK);
+            }
 
-    findViewById(R.id.button_photo_gif).setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        PhotoPicker.builder()
-                .setShowCamera(true)
-                .setShowGif(true)
-                .start(MainActivity.this);
-      }
-    });
+        });
 
-    recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,
-            new RecyclerItemClickListener.OnItemClickListener() {
-      @Override
-      public void onItemClick(View view, int position) {
-        if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
-          PhotoPicker.builder()
-                  .setPhotoCount(PhotoAdapter.MAX)
-                  .setShowCamera(true)
-                  .setPreviewEnabled(false)
-                  .setSelected(selectedPhotos)
-                  .start(MainActivity.this);
-        } else {
-          PhotoPreview.builder()
-                  .setPhotos(selectedPhotos)
-                  .setCurrentItem(position)
-                  .start(MainActivity.this);
-        }
-      }
-    }));
-  }
+        findViewById(R.id.button_no_camera).setOnClickListener(new View.OnClickListener() {
 
-  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setPhotoCount(7)
+                        .setShowCamera(false)
+                        .setPreviewEnabled(false)
+                        .start(MainActivity.this, EXTRA_PICK);
+            }
 
-    if (resultCode == RESULT_OK &&
-        (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
+        });
 
-      List<String> photos = null;
-      if (data != null) {
-        photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-      }
-      selectedPhotos.clear();
+        findViewById(R.id.button_one_photo).setOnClickListener(new View.OnClickListener() {
 
-      if (photos != null) {
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setPhotoCount(1)
+                        .start(MainActivity.this, EXTRA_PICK);
+            }
 
-        selectedPhotos.addAll(photos);
-      }
-      photoAdapter.notifyDataSetChanged();
+        });
+
+        findViewById(R.id.button_photo_gif).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setShowCamera(true)
+                        .setShowGif(true)
+                        .start(MainActivity.this, EXTRA_PICK);
+            }
+
+        });
+
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(View view, int position) {
+                if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
+                    PhotoPicker.builder()
+                            .setPhotoCount(PhotoAdapter.MAX)
+                            .setShowCamera(true)
+                            .setPreviewEnabled(false)
+                            .setSelected(selectedPhotos)
+                            .start(MainActivity.this, EXTRA_PICK);
+
+                } else {
+                    PhotoPreview.builder()
+                            .setPhotos(selectedPhotos)
+                            .setCurrentItem(position)
+                            .start(MainActivity.this, EXTRA_PREVIEW);
+                }
+            }
+
+        }));
     }
-  }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case EXTRA_PICK: {
+                if (resultCode == RESULT_OK) {
+                    List<String> photos = data.getStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
+                    selectedPhotos.clear();
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                }
+            }
+            break;
+
+            case EXTRA_PREVIEW: {
+                if (resultCode == RESULT_OK) {
+                    List<String> photos = data.getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
+                    selectedPhotos.clear();
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    photoAdapter.notifyDataSetChanged();
+                }
+            }
+            break;
+
+            default:
+                break;
+
+        }
+    }
 
 }

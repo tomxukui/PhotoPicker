@@ -17,6 +17,8 @@ import me.iwf.photopicker.widget.TouchImageView;
  */
 public class PhotoZoomActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SELECTED_PHOTO = "EXTRA_SELECTED_PHOTO";
+
     private TouchImageView iv_img;
 
     private String mImgPath;
@@ -30,7 +32,7 @@ public class PhotoZoomActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mImgPath = getIntent().getStringExtra(PhotoPicker.KEY_SELECTED_PHOTO);
+        mImgPath = getIntent().getStringExtra(EXTRA_SELECTED_PHOTO);
     }
 
     private void initView() {

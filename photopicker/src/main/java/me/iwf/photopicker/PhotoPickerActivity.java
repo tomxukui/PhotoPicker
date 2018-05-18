@@ -85,7 +85,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
             ArrayList<String> selectedPhotos = mPhotoGridAdapter.getSelectedPhotoPaths();
             if (selectedPhotos != null && selectedPhotos.size() > 0) {
                 Intent intent = new Intent();
-                intent.putStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS, selectedPhotos);
+                intent.putStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS, selectedPhotos);
                 setResult(RESULT_OK, intent);
             }
             finish();
@@ -181,7 +181,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 String photoPath = photoPaths.get(index);
 
                 Intent intent = new Intent(PhotoPickerActivity.this, PhotoZoomActivity.class);
-                intent.putExtra(PhotoPicker.KEY_SELECTED_PHOTO, photoPath);
+                intent.putExtra(PhotoZoomActivity.EXTRA_SELECTED_PHOTO, photoPath);
                 startActivity(intent);
             }
 
