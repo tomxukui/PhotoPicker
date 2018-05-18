@@ -27,15 +27,14 @@
 
 ```groovy
 dependencies {
-    compile 'me.iwf.photopicker:PhotoPicker:0.9.12@aar'
-    
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.github.bumptech.glide:glide:4.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.github.bumptech.glide:glide:4.1.1'
+    implementation 'com.github.tomxukui:PhotoPicker:1.0.1'
 }
 ```
-* ```appcompat-v7```version >= 23.0.0
+* ```appcompat-v7```version >= 27.1.1
 
 ### eclipse
 [![GO HOME](http://ww4.sinaimg.cn/large/5e9a81dbgw1eu90m08v86j20dw09a3yu.jpg)
@@ -62,40 +61,22 @@ PhotoPreview.builder()
     .start(MainActivity.this);
 ```
 
-### onActivityResult
-```java
-@Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-  super.onActivityResult(requestCode, resultCode, data);
-
-  if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
-    if (data != null) {
-      ArrayList<String> photos = 
-          data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-    }
-  }
-}
-```
-
 ### manifest
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
-  <application
-    ...
-    >
-    ...
     
-    <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
-      android:theme="@style/Theme.AppCompat.NoActionBar" 
-       />
-
-    <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
-      android:theme="@style/Theme.AppCompat.NoActionBar"/>
+  <application>
+    
+     <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
+     <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />
+     <activity android:name="me.iwf.photopicker.PhotoZoomActivity" />
     
   </application>
+  
 </manifest>
 ```
 ### Custom style
