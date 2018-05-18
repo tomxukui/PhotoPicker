@@ -10,7 +10,7 @@
                     <stroke android:width="1dip" android:color="@android:color/white" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/picker_ic_check" />
+            <item android:drawable="@mipmap/picker_ic_check" />
         </layer-list>
     </item>
 
@@ -23,7 +23,7 @@
                     <stroke android:width="1dip" android:color="@android:color/white" />
                 </shape>
             </item>
-            <item android:drawable="@drawable/picker_ic_uncheck" />
+            <item android:drawable="@mipmap/picker_ic_uncheck" />
         </layer-list>
     </item>
 

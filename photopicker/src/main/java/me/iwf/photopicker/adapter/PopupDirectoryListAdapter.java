@@ -82,7 +82,7 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
             options.dontAnimate()
                     .dontTransform()
                     .override(800, 800)
-                    .error(R.drawable.picker_ic_broken_img);
+                    .error(R.mipmap.picker_ic_broken_img);
 
             mGlide.setDefaultRequestOptions(options)
                     .load(directory.getCoverPath())

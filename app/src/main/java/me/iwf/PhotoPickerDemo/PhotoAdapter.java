@@ -60,7 +60,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
             if (canLoadImage) {
                 final RequestOptions options = new RequestOptions();
                 options.centerCrop()
-                        .error(R.drawable.picker_ic_broken_img);
+                        .error(R.mipmap.picker_ic_broken_img);
                 Glide.with(mContext)
                         .load(uri)
                         .apply(options)

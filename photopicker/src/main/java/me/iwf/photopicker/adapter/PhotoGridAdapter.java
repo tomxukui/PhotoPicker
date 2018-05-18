@@ -110,7 +110,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
                 options.centerCrop()
                         .dontAnimate()
                         .override(imageSize, imageSize)
-                        .error(R.drawable.picker_ic_broken_img);
+                        .error(R.mipmap.picker_ic_broken_img);
 
                 glide.setDefaultRequestOptions(options)
                         .load(new File(photo.getPath()))
@@ -154,7 +154,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
             });
 
         } else {
-            holder.ivPhoto.setImageResource(R.drawable.picker_ic_camera);
+            holder.ivPhoto.setImageResource(R.mipmap.picker_ic_camera);
         }
     }
 
