@@ -1,5 +1,6 @@
 package me.iwf.photopicker.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import me.iwf.photopicker.R;
 import me.iwf.photopicker.entity.PhotoDirectory;
+import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 
 /**
  * Created by donglua on 15/6/28.
@@ -52,24 +54,22 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            LayoutInflater mLayoutInflater = LayoutInflater.from(parent.getContext());
-            convertView = mLayoutInflater.inflate(R.layout.picker_item_list_popup_directory, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.picker_item_list_popup_directory, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        holder.bindData(mDirectories.get(position));
+        holder.bindData(parent.getContext(), mDirectories.get(position));
         return convertView;
     }
 
     class ViewHolder {
 
-        public ImageView ivCover;
-        public TextView tvName;
-        public TextView tvCount;
+        ImageView ivCover;
+        TextView tvName;
+        TextView tvCount;
 
         public ViewHolder(View rootView) {
             ivCover = rootView.findViewById(R.id.iv_dir_cover);
@@ -77,23 +77,23 @@ public class PopupDirectoryListAdapter extends BaseAdapter {
             tvCount = rootView.findViewById(R.id.tv_dir_count);
         }
 
-        public void bindData(PhotoDirectory directory) {
-            RequestOptions options = new RequestOptions();
-            options.dontAnimate()
-                    .dontTransform()
-                    .override(800, 800)
-                    .error(R.mipmap.picker_ic_broken_img);
-
-            mGlide.setDefaultRequestOptions(options)
-                    .load(directory.getCoverPath())
-                    .thumbnail(0.1f)
-                    .into(ivCover);
-
+        public void bindData(Context context, PhotoDirectory directory) {
             tvName.setText(directory.getName());
-
             tvCount.setText(String.format("%d张", directory.getPhotos().size()));
-        }
 
+            if (AndroidLifecycleUtils.canLoadImage(context)) {
+                RequestOptions options = new RequestOptions()
+                        .dontAnimate()
+                        .dontTransform()
+                        .override(800, 800)
+                        .error(R.mipmap.picker_ic_broken_img);
+
+                mGlide.setDefaultRequestOptions(options)
+                        .load(directory.getCoverPath())
+                        .thumbnail(0.1f)
+                        .into(ivCover);
+            }
+        }
     }
 
 }

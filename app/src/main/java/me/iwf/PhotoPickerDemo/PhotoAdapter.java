@@ -55,12 +55,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         if (getItemViewType(position) == TYPE_PHOTO) {
             Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
 
-            boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
-
-            if (canLoadImage) {
-                final RequestOptions options = new RequestOptions();
-                options.centerCrop()
+            if (AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext())) {
+                RequestOptions options = new RequestOptions()
+                        .centerCrop()
                         .error(R.mipmap.picker_ic_broken_img);
+
                 Glide.with(mContext)
                         .load(uri)
                         .apply(options)

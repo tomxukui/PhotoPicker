@@ -39,9 +39,7 @@ public class PhotoZoomActivity extends AppCompatActivity {
     private void initView() {
         iv_img = findViewById(R.id.iv_img);
 
-        boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(this);
-
-        if (canLoadImage) {
+        if (AndroidLifecycleUtils.canLoadImage(this)) {
             Uri uri = (mImgPath.startsWith("http") ? Uri.parse(mImgPath) : Uri.fromFile(new File(mImgPath)));
 
             RequestOptions options = new RequestOptions()

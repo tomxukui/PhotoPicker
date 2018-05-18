@@ -293,11 +293,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
     }
 
     private void resumeRequestsIfNotDestroyed() {
-        if (!AndroidLifecycleUtils.canLoadImage(this)) {
-            return;
+        if (AndroidLifecycleUtils.canLoadImage(this)) {
+            mGlideRequestManager.resumeRequests();
         }
-
-        mGlideRequestManager.resumeRequests();
     }
 
     private void setTitleView(int count) {

@@ -29,26 +29,25 @@ import me.iwf.photopicker.utils.MediaStoreHelper;
  */
 public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoViewHolder> {
 
-    private RequestManager glide;
+    public final static int ITEM_TYPE_CAMERA = 100;
+    public final static int ITEM_TYPE_PHOTO = 101;
+    private final static int COL_NUMBER_DEFAULT = 3;
+
+    private RequestManager mGlide;
+
+    private boolean mHasCamera = true;
+    private boolean mPreviewEnable = true;
+    private int mImageSize;
+    private int mColumnNumber = COL_NUMBER_DEFAULT;
 
     private OnItemCheckListener onItemCheckListener = null;
     private OnPhotoClickListener onPhotoClickListener = null;
     private View.OnClickListener onCameraClickListener = null;
 
-    public final static int ITEM_TYPE_CAMERA = 100;
-    public final static int ITEM_TYPE_PHOTO = 101;
-    private final static int COL_NUMBER_DEFAULT = 3;
-
-    private boolean hasCamera = true;
-    private boolean previewEnable = true;
-
-    private int imageSize;
-    private int columnNumber = COL_NUMBER_DEFAULT;
-
     public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> photoDirectories) {
         this.photoDirectories = photoDirectories;
-        this.glide = requestManager;
-        setColumnNumber(context, columnNumber);
+        mGlide = requestManager;
+        setColumnNumber(context, mColumnNumber);
     }
 
     public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> photoDirectories, ArrayList<String> orginalPhotos, int colNum) {
@@ -59,12 +58,12 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
     }
 
     private void setColumnNumber(Context context, int columnNumber) {
-        this.columnNumber = columnNumber;
+        mColumnNumber = columnNumber;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
-        imageSize = widthPixels / columnNumber;
+        mImageSize = widthPixels / columnNumber;
     }
 
     @Override
@@ -103,16 +102,14 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
                 photo = photos.get(position);
             }
 
-            boolean canLoadImage = AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext());
-
-            if (canLoadImage) {
-                final RequestOptions options = new RequestOptions();
-                options.centerCrop()
+            if (AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext())) {
+                final RequestOptions options = new RequestOptions()
+                        .centerCrop()
                         .dontAnimate()
-                        .override(imageSize, imageSize)
+                        .override(mImageSize, mImageSize)
                         .error(R.mipmap.picker_ic_broken_img);
 
-                glide.setDefaultRequestOptions(options)
+                mGlide.setDefaultRequestOptions(options)
                         .load(new File(photo.getPath()))
                         .thumbnail(0.5f)
                         .into(holder.ivPhoto);
@@ -128,7 +125,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
                 public void onClick(View view) {
                     if (onPhotoClickListener != null) {
                         int pos = holder.getAdapterPosition();
-                        if (previewEnable) {
+                        if (mPreviewEnable) {
                             onPhotoClickListener.onClick(view, pos, showCamera());
                         } else {
                             holder.vSelected.performClick();
@@ -160,8 +157,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
 
     @Override
     public int getItemCount() {
-        int photosCount =
-                photoDirectories.size() == 0 ? 0 : getCurrentPhotos().size();
+        int photosCount = (photoDirectories.size() == 0 ? 0 : getCurrentPhotos().size());
         if (showCamera()) {
             return photosCount + 1;
         }
@@ -202,20 +198,20 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
     }
 
     public void setShowCamera(boolean hasCamera) {
-        this.hasCamera = hasCamera;
+        mHasCamera = hasCamera;
     }
 
     public void setPreviewEnable(boolean previewEnable) {
-        this.previewEnable = previewEnable;
+        mPreviewEnable = previewEnable;
     }
 
     public boolean showCamera() {
-        return (hasCamera && currentDirectoryIndex == MediaStoreHelper.INDEX_ALL_PHOTOS);
+        return (mHasCamera && currentDirectoryIndex == MediaStoreHelper.INDEX_ALL_PHOTOS);
     }
 
     @Override
     public void onViewRecycled(PhotoViewHolder holder) {
-        glide.clear(holder.ivPhoto);
+        mGlide.clear(holder.ivPhoto);
         super.onViewRecycled(holder);
     }
 
