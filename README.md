@@ -34,31 +34,34 @@ dependencies {
     implementation 'com.github.tomxukui:PhotoPicker:1.0.1'
 }
 ```
-* ```appcompat-v7```version >= 27.1.1
 
 ### eclipse
 [![GO HOME](http://ww4.sinaimg.cn/large/5e9a81dbgw1eu90m08v86j20dw09a3yu.jpg)
 
 ### Pick Photo
 ```java
+int requestCode1 = 1;
+
 PhotoPicker.builder()
     .setPhotoCount(9)
     .setShowCamera(true)
     .setShowGif(true)
     .setPreviewEnabled(false)
-    .start(this, PhotoPicker.REQUEST_CODE);
+    .start(this, requestCode1);
 ```
 
 ### Preview Photo
 
 ```java
+int requestCode2 = 2;
+
 ArrayList<String> photoPaths = ...;
 
 PhotoPreview.builder()
     .setPhotos(selectedPhotos)
     .setCurrentItem(position)
     .setShowDeleteButton(false)
-    .start(MainActivity.this);
+    .start(MainActivity.this, requestCode2);
 ```
 
 ### manifest
