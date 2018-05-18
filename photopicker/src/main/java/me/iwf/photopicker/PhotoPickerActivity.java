@@ -70,7 +70,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.__picker_menu_picker, menu);
+        getMenuInflater().inflate(R.menu.picker_menu_picker, menu);
         return true;
     }
 
@@ -324,10 +324,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
         if (mDirPopupListAdapter == null) {
             return;
         }
+
         int count = mDirPopupListAdapter.getCount();
         count = count < COUNT_MAX ? count : COUNT_MAX;
+
         if (mListPopupWindow != null) {
-            mListPopupWindow.setHeight(count * getResources().getDimensionPixelOffset(R.dimen.__picker_item_directory_height));
+            mListPopupWindow.setHeight(count * getResources().getDimensionPixelOffset(R.dimen.picker_item_directory_height));
         }
     }
 

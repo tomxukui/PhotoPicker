@@ -47,7 +47,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.__picker_menu_preview, menu);
+        getMenuInflater().inflate(R.menu.picker_menu_preview, menu);
         menu.findItem(R.id.action_delete).setVisible(mShowDelete);
         return true;
     }
