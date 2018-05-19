@@ -7,8 +7,8 @@ android {
         applicationId "me.iwf.PhotoPickerDemo"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 17
-        versionName "2.0.1"
+        versionCode 18
+        versionName "2.0.2"
     }
 
     buildTypes {

@@ -166,7 +166,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
                 if (selectedItemCount > mMaxCount) {
                     Toast.makeText(PhotoPickerActivity.this, String.format("最多可以选择%d张", mMaxCount), Toast.LENGTH_LONG).show();
-                    return true;
+                    return false;
                 }
 
                 setTitleView(selectedItemCount);
