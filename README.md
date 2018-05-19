@@ -31,7 +31,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
-    implementation 'com.github.tomxukui:PhotoPicker:1.0.2'
+    implementation 'com.github.tomxukui:PhotoPicker:1.0.3'
 }
 ```
 
