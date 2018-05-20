@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
-/**
- * Created by Donglua on 16/6/25.
- * Builder class to ease Intent setup.
- */
 public class PhotoPreview {
 
     public final static String EXTRA_CURRENT_ITEM = "EXTRA_CURRENT_ITEM";
@@ -51,12 +47,28 @@ public class PhotoPreview {
             return intent;
         }
 
-        public void start(Activity activity, int requestCode) {
-            activity.startActivityForResult(getIntent(activity), requestCode);
+        public void start(Activity activity) {
+            if (activity != null) {
+                activity.startActivity(getIntent(activity));
+            }
         }
 
-        public void start(@NonNull Context context, @NonNull android.support.v4.app.Fragment fragment, int requestCode) {
-            fragment.startActivityForResult(getIntent(context), requestCode);
+        public void start(Activity activity, int requestCode) {
+            if (activity != null) {
+                activity.startActivityForResult(getIntent(activity), requestCode);
+            }
+        }
+
+        public void start(Fragment fragment) {
+            if (fragment != null && fragment.getContext() != null) {
+                fragment.startActivity(getIntent(fragment.getContext()));
+            }
+        }
+
+        public void start(Fragment fragment, int requestCode) {
+            if (fragment != null && fragment.getContext() != null) {
+                fragment.startActivityForResult(getIntent(fragment.getContext()), requestCode);
+            }
         }
 
     }
