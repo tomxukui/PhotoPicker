@@ -7,10 +7,18 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.widget.Toast;
+
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.Rationale;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.iwf.PhotoPickerDemo.permission.DefaultRationale;
+import me.iwf.PhotoPickerDemo.permission.PermissionSetting;
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
 
@@ -22,11 +30,33 @@ public class MainActivity extends AppCompatActivity {
     private PhotoAdapter photoAdapter;
 
     private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private Rationale mRationale;
+    private PermissionSetting mPermissionSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mRationale = new DefaultRationale();
+        mPermissionSetting = new PermissionSetting(this);
+
+        AndPermission.with(this)
+                .permission(Permission.Group.STORAGE, Permission.Group.CAMERA)
+                .rationale(mRationale)
+                .onDenied(new Action() {
+
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        Toast.makeText(MainActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                            mPermissionSetting.showSetting(permissions);
+                        }
+                    }
+
+                })
+                .start();
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         photoAdapter = new PhotoAdapter(this, selectedPhotos);
