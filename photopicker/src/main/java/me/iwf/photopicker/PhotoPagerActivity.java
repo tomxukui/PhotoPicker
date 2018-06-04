@@ -124,7 +124,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     }
 
     private void setTitleView(int pos) {
-        tv_title.setText(String.format("图片(%d/%d)", pos + 1, mPhotoPaths.size()));
+        tv_title.setText(String.format("%d/%d", pos + 1, mPhotoPaths.size()));
     }
 
     private final ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
