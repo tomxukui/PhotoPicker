@@ -1,6 +1,5 @@
 package me.iwf.photopicker.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
@@ -24,58 +23,41 @@ import me.iwf.photopicker.utils.AndroidLifecycleUtils;
  */
 public class PhotoPagerAdapter extends PagerAdapter {
 
-    private List<String> mPaths;
     private RequestManager mGlide;
+    private List<String> mPaths;
+    private LayoutInflater mInflater;
 
-    public PhotoPagerAdapter(RequestManager glide, List<String> paths) {
-        mPaths = paths;
-        this.mGlide = glide;
-        if (mPaths == null) {
-            mPaths = new ArrayList<>();
-        }
+    public PhotoPagerAdapter(Context context, RequestManager glide, List<String> paths) {
+        mInflater = LayoutInflater.from(context);
+        mGlide = glide;
+        mPaths = (paths == null ? new ArrayList<String>() : paths);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        final Context context = container.getContext();
-        View itemView = LayoutInflater.from(context).inflate(R.layout.picker_item_pager_photo, container, false);
-        final ImageView iv_img = itemView.findViewById(R.id.iv_img);
+        View layout = mInflater.inflate(R.layout.picker_item_pager_photo, container, false);
+
+        final ImageView iv_img = layout.findViewById(R.id.iv_img);
 
         final String path = mPaths.get(position);
-        final Uri uri;
-        if (path.startsWith("http")) {
-            uri = Uri.parse(path);
-        } else {
-            uri = Uri.fromFile(new File(path));
-        }
+        final Uri uri = (path.startsWith("http") ? Uri.parse(path) : Uri.fromFile(new File(path)));
 
-        if (AndroidLifecycleUtils.canLoadImage(context)) {
+        if (AndroidLifecycleUtils.canLoadImage(container)) {
             final RequestOptions options = new RequestOptions()
                     .dontAnimate()
                     .dontTransform()
                     .override(800, 800)
                     .error(R.mipmap.picker_ic_broken_img);
 
-            mGlide.setDefaultRequestOptions(options).load(uri)
+            mGlide.setDefaultRequestOptions(options)
+                    .load(uri)
                     .thumbnail(0.1f)
                     .into(iv_img);
         }
 
-        iv_img.setOnClickListener(new View.OnClickListener() {
+        container.addView(layout);
 
-            @Override
-            public void onClick(View view) {
-                if (context instanceof Activity) {
-                    if (!((Activity) context).isFinishing()) {
-                        ((Activity) context).onBackPressed();
-                    }
-                }
-            }
-
-        });
-
-        container.addView(itemView);
-        return itemView;
+        return layout;
     }
 
     @Override
@@ -90,8 +72,10 @@ public class PhotoPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View) object);
-        mGlide.clear((View) object);
+        View view = (View) object;
+
+        container.removeView(view);
+        mGlide.clear(view);
     }
 
     @Override

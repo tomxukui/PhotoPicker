@@ -64,8 +64,8 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.picker_item_grid_photo, parent, false);
-        return new ViewHolder(view);
+        View layout = mInflater.inflate(R.layout.picker_item_grid_photo, parent, false);
+        return new ViewHolder(layout);
     }
 
     @Override
@@ -168,10 +168,10 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
         ImageView iv_photo;
         ImageView iv_selector;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            iv_photo = itemView.findViewById(R.id.iv_photo);
-            iv_selector = itemView.findViewById(R.id.iv_selector);
+        public ViewHolder(View layout) {
+            super(layout);
+            iv_photo = layout.findViewById(R.id.iv_photo);
+            iv_selector = layout.findViewById(R.id.iv_selector);
         }
 
     }

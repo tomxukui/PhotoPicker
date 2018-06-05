@@ -99,7 +99,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
             mPhotoPaths = new ArrayList<>();
         }
 
-        mPagerAdapter = new PhotoPagerAdapter(Glide.with(this), mPhotoPaths);
+        mPagerAdapter = new PhotoPagerAdapter(this, Glide.with(this), mPhotoPaths);
     }
 
     private void initActionBar() {
