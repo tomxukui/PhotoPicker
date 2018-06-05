@@ -5,12 +5,13 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 public class AndroidLifecycleUtils {
 
     public static boolean canLoadImage(Fragment fragment) {
         if (fragment == null) {
-            return true;
+            return false;
         }
 
         FragmentActivity activity = fragment.getActivity();
@@ -20,20 +21,21 @@ public class AndroidLifecycleUtils {
 
     public static boolean canLoadImage(Context context) {
         if (context == null) {
-            return true;
+            return false;
         }
 
         if (!(context instanceof Activity)) {
-            return true;
+            return false;
         }
 
         Activity activity = (Activity) context;
+
         return canLoadImage(activity);
     }
 
     public static boolean canLoadImage(Activity activity) {
         if (activity == null) {
-            return true;
+            return false;
         }
 
         boolean destroyed = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed();
@@ -42,6 +44,16 @@ public class AndroidLifecycleUtils {
         }
 
         return true;
+    }
+
+    public static boolean canLoadImage(View view) {
+        if (view == null) {
+            return false;
+        }
+
+        Context context = view.getContext();
+
+        return canLoadImage(context);
     }
 
 }
