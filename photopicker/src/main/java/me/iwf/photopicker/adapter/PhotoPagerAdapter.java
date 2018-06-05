@@ -37,13 +37,13 @@ public class PhotoPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View layout = mInflater.inflate(R.layout.picker_item_pager_photo, container, false);
 
-        final ImageView iv_img = layout.findViewById(R.id.iv_img);
+        ImageView iv_img = layout.findViewById(R.id.iv_img);
 
-        final String path = mPaths.get(position);
-        final Uri uri = (path.startsWith("http") ? Uri.parse(path) : Uri.fromFile(new File(path)));
+        String path = mPaths.get(position);
+        Uri uri = (path.startsWith("http") ? Uri.parse(path) : Uri.fromFile(new File(path)));
 
         if (AndroidLifecycleUtils.canLoadImage(container)) {
-            final RequestOptions options = new RequestOptions()
+            RequestOptions options = new RequestOptions()
                     .dontAnimate()
                     .dontTransform()
                     .override(800, 800)
