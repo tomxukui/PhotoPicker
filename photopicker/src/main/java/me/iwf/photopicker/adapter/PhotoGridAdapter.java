@@ -27,8 +27,8 @@ import me.iwf.photopicker.utils.MediaStoreHelper;
  */
 public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHolder> {
 
-    private final static int TYPE_CAMERA = 100;
-    private final static int TYPE_PHOTO = 101;
+    private final static int TYPE_CAMERA = 0;
+    private final static int TYPE_PHOTO = 1;
 
     private LayoutInflater mInflater;
     private RequestManager mGlide;
