@@ -30,21 +30,20 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
     private final static int TYPE_CAMERA = 100;
     private final static int TYPE_PHOTO = 101;
 
+    private LayoutInflater mInflater;
     private RequestManager mGlide;
-
     private boolean mHasCamera = true;
     private boolean mPreviewEnable = true;
     private int mImageSize;
     private int mColumnNumber;
-    private LayoutInflater mInflater;
 
     private OnItemCheckListener mOnItemCheckListener;
     private OnPhotoClickListener mOnPhotoClickListener;
     private View.OnClickListener mOnCameraClickListener;
 
     public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> directories, ArrayList<String> photos, int colNum) {
-        mGlide = requestManager;
         mInflater = LayoutInflater.from(context);
+        mGlide = requestManager;
 
         mColumnNumber = colNum;
         int widthPixels = context.getResources().getDisplayMetrics().widthPixels;
