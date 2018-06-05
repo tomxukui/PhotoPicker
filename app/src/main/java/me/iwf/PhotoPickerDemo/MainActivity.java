@@ -90,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 PhotoPicker.builder()
                         .setPhotoCount(MAX_COUNT)
+                        .setGridColumnCount(SPAN_COUNT)
                         .setShowCamera(true)
-                        .setPreviewEnabled(false)
+                        .setPreviewEnabled(true)
                         .setSelected(selectedPhotos)
                         .start(MainActivity.this, EXTRA_PICK);
             }
@@ -120,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PhotoPicker.builder()
-                        .setPhotoCount(9)
-                        .setGridColumnCount(4)
+                        .setPhotoCount(MAX_COUNT)
+                        .setGridColumnCount(SPAN_COUNT)
+                        .setPreviewEnabled(false)
                         .start(MainActivity.this, EXTRA_PICK);
             }
 
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PhotoPicker.builder()
-                        .setPhotoCount(7)
+                        .setPhotoCount(MAX_COUNT)
                         .setShowCamera(false)
                         .setPreviewEnabled(false)
                         .start(MainActivity.this, EXTRA_PICK);

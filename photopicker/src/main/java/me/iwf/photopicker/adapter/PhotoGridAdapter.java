@@ -32,8 +32,8 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
     private LayoutInflater mInflater;
     private RequestManager mGlide;
-    private boolean mHasCamera = true;
-    private boolean mPreviewEnable = true;
+    private boolean mHasCamera;
+    private boolean mPreviewEnable;
     private int mImageSize;
     private int mColumnNumber;
 
@@ -48,9 +48,9 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
         mColumnNumber = colNum;
         int widthPixels = context.getResources().getDisplayMetrics().widthPixels;
         mImageSize = widthPixels / mColumnNumber;
-
+        mHasCamera = true;
+        mPreviewEnable = true;
         mPhotoDirectories = (directories == null ? new ArrayList<PhotoDirectory>() : directories);
-
         mSelectedPhotos.clear();
         if (photos != null) {
             mSelectedPhotos.addAll(photos);
@@ -135,18 +135,17 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
                     @Override
                     public void onClick(View view) {
-                        if (mOnPhotoClickListener != null) {
+                        if (mPreviewEnable) {
                             int pos = holder.getAdapterPosition();
 
-                            if (mPreviewEnable) {
+                            if (mOnPhotoClickListener != null) {
                                 mOnPhotoClickListener.onClick(view, pos, showCamera());
-
-                            } else {
-                                holder.iv_photo.performClick();
                             }
+
+                        } else {
+                            holder.iv_photo.performClick();
                         }
                     }
-
                 });
             }
             break;

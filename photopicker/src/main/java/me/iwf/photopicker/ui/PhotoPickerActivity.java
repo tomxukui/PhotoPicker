@@ -38,6 +38,8 @@ import me.iwf.photopicker.utils.MediaStoreHelper;
 
 public class PhotoPickerActivity extends AppCompatActivity {
 
+    private final static int MAX_COUNT = 9;
+    private final static int COLUMN_NUMBER = 4;
     private static final int POPUP_MAX_COUNT = 4;//目录弹出框的一次最多显示的目录数目
     private static final int SCROLL_THRESHOLD = 30;
 
@@ -139,8 +141,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
         mShowCamera = getIntent().getBooleanExtra(PhotoPicker.EXTRA_SHOW_CAMERA, true);
         mShowGif = getIntent().getBooleanExtra(PhotoPicker.EXTRA_SHOW_GIF, false);
         mPreviewEnabled = getIntent().getBooleanExtra(PhotoPicker.EXTRA_PREVIEW_ENABLED, true);
-        mMaxCount = getIntent().getIntExtra(PhotoPicker.EXTRA_MAX_COUNT, PhotoPicker.DEFAULT_MAX_COUNT);
-        mColumnNumber = getIntent().getIntExtra(PhotoPicker.EXTRA_GRID_COLUMN, PhotoPicker.DEFAULT_COLUMN_NUMBER);
+        mMaxCount = getIntent().getIntExtra(PhotoPicker.EXTRA_MAX_COUNT, MAX_COUNT);
+        mColumnNumber = getIntent().getIntExtra(PhotoPicker.EXTRA_GRID_COLUMN, COLUMN_NUMBER);
         mOriginalPhotos = getIntent().getStringArrayListExtra(PhotoPicker.EXTRA_ORIGINAL_PHOTOS);
 
         mGlideRequestManager = Glide.with(this);
