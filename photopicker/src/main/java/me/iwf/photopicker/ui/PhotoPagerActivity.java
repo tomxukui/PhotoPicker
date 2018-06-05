@@ -1,4 +1,4 @@
-package me.iwf.photopicker;
+package me.iwf.photopicker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import me.iwf.photopicker.PhotoPreview;
+import me.iwf.photopicker.R;
 import me.iwf.photopicker.adapter.PhotoPagerAdapter;
 
 /**

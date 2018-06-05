@@ -1,4 +1,4 @@
-package me.iwf.photopicker;
+package me.iwf.photopicker.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.R;
 import me.iwf.photopicker.adapter.PhotoGridAdapter;
 import me.iwf.photopicker.adapter.PopupDirectoryListAdapter;
 import me.iwf.photopicker.entity.Photo;

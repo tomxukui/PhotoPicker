@@ -30,11 +30,11 @@
 
         </activity>
 
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity" />
+        <activity android:name="me.iwf.photopicker.ui.PhotoPickerActivity" />
 
-        <activity android:name="me.iwf.photopicker.PhotoPagerActivity" />
+        <activity android:name="me.iwf.photopicker.ui.PhotoPagerActivity" />
 
-        <activity android:name="me.iwf.photopicker.PhotoZoomActivity" />
+        <activity android:name="me.iwf.photopicker.ui.PhotoZoomActivity" />
 
     </application>
 

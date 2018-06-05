@@ -1,4 +1,4 @@
-package me.iwf.photopicker;
+package me.iwf.photopicker.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 
+import me.iwf.photopicker.R;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 import me.iwf.photopicker.widget.TouchImageView;
 

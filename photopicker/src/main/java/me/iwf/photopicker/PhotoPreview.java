@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
+import me.iwf.photopicker.ui.PhotoPagerActivity;
+
 public class PhotoPreview {
 
     public final static String EXTRA_CURRENT_ITEM = "EXTRA_CURRENT_ITEM";

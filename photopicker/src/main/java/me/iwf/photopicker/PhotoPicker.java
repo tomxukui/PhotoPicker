@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
+import me.iwf.photopicker.ui.PhotoPickerActivity;
+
 public class PhotoPicker {
 
     public final static int DEFAULT_MAX_COUNT = 9;
