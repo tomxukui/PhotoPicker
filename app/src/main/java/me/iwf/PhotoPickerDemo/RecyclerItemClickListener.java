@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -35,9 +36,12 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         return false;
     }
 
-    @Override public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
     }
 
-    @Override public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
     }
+
 }
