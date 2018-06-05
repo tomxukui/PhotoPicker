@@ -94,11 +94,30 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
             break;
 
             case TYPE_PHOTO: {
+                holder.iv_selector.setVisibility(View.VISIBLE);
+
                 List<Photo> photos = getCurrentPhotos();
                 final Photo photo = photos.get(showCamera() ? (position - 1) : position);
                 final boolean isChecked = isSelected(photo);
 
                 holder.iv_selector.setSelected(isChecked);
+                holder.iv_selector.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        int pos = holder.getAdapterPosition();
+                        boolean isEnable = true;
+
+                        if (mOnItemCheckListener != null) {
+                            isEnable = mOnItemCheckListener.onItemCheck(pos, photo, getSelectedPhotos().size() + (isSelected(photo) ? -1 : 1));
+                        }
+                        if (isEnable) {
+                            toggleSelection(photo);
+                            notifyItemChanged(pos);
+                        }
+                    }
+
+                });
 
                 holder.iv_photo.setSelected(isChecked);
                 if (AndroidLifecycleUtils.canLoadImage(holder.iv_photo)) {
@@ -119,28 +138,13 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
                     public void onClick(View view) {
                         if (mOnPhotoClickListener != null) {
                             int pos = holder.getAdapterPosition();
+
                             if (mPreviewEnable) {
                                 mOnPhotoClickListener.onClick(view, pos, showCamera());
+
                             } else {
                                 holder.iv_photo.performClick();
                             }
-                        }
-                    }
-
-                });
-                holder.iv_photo.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-                        int pos = holder.getAdapterPosition();
-                        boolean isEnable = true;
-
-                        if (mOnItemCheckListener != null) {
-                            isEnable = mOnItemCheckListener.onItemCheck(pos, photo, getSelectedPhotos().size() + (isSelected(photo) ? -1 : 1));
-                        }
-                        if (isEnable) {
-                            toggleSelection(photo);
-                            notifyItemChanged(pos);
                         }
                     }
 
