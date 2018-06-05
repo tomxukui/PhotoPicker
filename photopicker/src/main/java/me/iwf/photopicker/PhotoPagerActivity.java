@@ -68,7 +68,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.action_delete) {
-            final int index = viewPager.getCurrentItem();
+            int index = viewPager.getCurrentItem();
 
             if (mPhotoPaths.size() <= 1) {
                 mPhotoPaths.remove(index);
@@ -118,7 +118,6 @@ public class PhotoPagerActivity extends AppCompatActivity {
     private void initView() {
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(mPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setCurrentItem(mCurrentIndex);
         viewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
