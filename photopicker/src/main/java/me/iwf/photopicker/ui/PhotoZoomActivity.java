@@ -47,7 +47,7 @@ public class PhotoZoomActivity extends AppCompatActivity {
                     .dontAnimate()
                     .dontTransform()
                     .override(800, 800)
-                    .error(R.mipmap.picker_ic_broken_img);
+                    .error(R.mipmap.picker_ic_empty);
 
             Glide.with(this)
                     .setDefaultRequestOptions(options)

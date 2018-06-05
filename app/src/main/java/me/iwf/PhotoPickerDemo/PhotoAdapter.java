@@ -55,16 +55,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         if (getItemViewType(position) == TYPE_PHOTO) {
             Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
 
-            if (AndroidLifecycleUtils.canLoadImage(holder.ivPhoto.getContext())) {
+            if (AndroidLifecycleUtils.canLoadImage(holder.iv_photo.getContext())) {
                 RequestOptions options = new RequestOptions()
                         .centerCrop()
-                        .error(R.mipmap.picker_ic_broken_img);
+                        .error(R.mipmap.picker_ic_empty);
 
                 Glide.with(mContext)
                         .load(uri)
                         .apply(options)
                         .thumbnail(0.1f)
-                        .into(holder.ivPhoto);
+                        .into(holder.iv_photo);
             }
         }
     }
@@ -85,15 +85,15 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView ivPhoto;
-        private View vSelected;
+        private ImageView iv_photo;
+        private View iv_selector;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
-            ivPhoto = itemView.findViewById(R.id.iv_photo);
-            vSelected = itemView.findViewById(R.id.v_selected);
-            if (vSelected != null) {
-                vSelected.setVisibility(View.GONE);
+            iv_photo = itemView.findViewById(R.id.iv_photo);
+            iv_selector = itemView.findViewById(R.id.iv_selector);
+            if (iv_selector != null) {
+                iv_selector.setVisibility(View.GONE);
             }
         }
     }

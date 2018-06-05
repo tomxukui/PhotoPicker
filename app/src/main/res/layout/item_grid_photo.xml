@@ -14,16 +14,12 @@
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:id="@+id/v_selected"
+        android:id="@+id/iv_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_gravity="top|right"
         android:clickable="true"
-        android:paddingBottom="20dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:src="@drawable/picker_check" />
+        android:padding="10dp"
+        android:src="@drawable/picker_selector" />
 
 </me.iwf.photopicker.widget.SquareFrameLayout>

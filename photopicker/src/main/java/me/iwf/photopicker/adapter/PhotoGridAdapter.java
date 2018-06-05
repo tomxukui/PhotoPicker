@@ -124,7 +124,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
                             .centerCrop()
                             .dontAnimate()
                             .override(mImageSize, mImageSize)
-                            .error(R.mipmap.picker_ic_broken_img);
+                            .error(R.mipmap.picker_ic_empty);
 
                     mGlide.setDefaultRequestOptions(options)
                             .load(new File(photo.getPath()))

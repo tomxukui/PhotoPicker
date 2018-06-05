@@ -20,6 +20,6 @@
         android:layout_gravity="top|right"
         android:clickable="true"
         android:padding="10dp"
-        android:src="@drawable/picker_check" />
+        android:src="@drawable/picker_selector" />
 
 </me.iwf.photopicker.widget.SquareFrameLayout>
