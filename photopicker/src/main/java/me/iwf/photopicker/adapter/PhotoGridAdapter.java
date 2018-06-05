@@ -135,10 +135,15 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
                     @Override
                     public void onClick(View view) {
-                        if (mPreviewEnable && mOnPhotoClickListener != null) {
-                            int pos = holder.getAdapterPosition();
+                        if (mPreviewEnable) {
+                            if (mOnPhotoClickListener != null) {
+                                int pos = holder.getAdapterPosition();
 
-                            mOnPhotoClickListener.onClick(view, pos, showCamera());
+                                mOnPhotoClickListener.onClick(view, pos, showCamera());
+                            }
+
+                        } else {
+                            holder.iv_selector.performClick();
                         }
                     }
                 });
