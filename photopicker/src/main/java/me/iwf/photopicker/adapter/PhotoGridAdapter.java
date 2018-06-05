@@ -165,13 +165,13 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView iv_photo;
-        ImageView iv_selector;
+        final ImageView iv_photo;
+        final ImageView iv_selector;
 
-        public ViewHolder(View layout) {
-            super(layout);
-            iv_photo = layout.findViewById(R.id.iv_photo);
-            iv_selector = layout.findViewById(R.id.iv_selector);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            iv_photo = itemView.findViewById(R.id.iv_photo);
+            iv_selector = itemView.findViewById(R.id.iv_selector);
         }
 
     }
