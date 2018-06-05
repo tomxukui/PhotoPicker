@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,13 +20,16 @@ import me.iwf.PhotoPickerDemo.permission.DefaultRationale;
 import me.iwf.PhotoPickerDemo.permission.PermissionSetting;
 import me.iwf.photopicker.PhotoPicker;
 import me.iwf.photopicker.PhotoPreview;
+import me.iwf.photopicker.event.OnPhotoClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int EXTRA_PICK = 1;
     private static final int EXTRA_PREVIEW = 2;
+    private static final int MAX_COUNT = 9;
+    private static final int SPAN_COUNT = 4;
 
-    private PhotoAdapter photoAdapter;
+    private PhotoAdapter mPhotoAdapter;
 
     private ArrayList<String> selectedPhotos = new ArrayList<>();
     private Rationale mRationale;
@@ -38,32 +39,81 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initData();
+        initView();
+        requestPermission();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case EXTRA_PICK: {
+                if (resultCode == RESULT_OK) {
+                    List<String> photos = data.getStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
+                    selectedPhotos.clear();
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    mPhotoAdapter.notifyDataSetChanged();
+                }
+            }
+            break;
+
+            case EXTRA_PREVIEW: {
+                if (resultCode == RESULT_OK) {
+                    List<String> photos = data.getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
+                    selectedPhotos.clear();
+                    if (photos != null) {
+                        selectedPhotos.addAll(photos);
+                    }
+                    mPhotoAdapter.notifyDataSetChanged();
+                }
+            }
+            break;
+
+            default:
+                break;
+
+        }
+    }
+
+    private void initData() {
         mRationale = new DefaultRationale();
         mPermissionSetting = new PermissionSetting(this);
 
-        AndPermission.with(this)
-                .permission(Permission.Group.STORAGE, Permission.Group.CAMERA)
-                .rationale(mRationale)
-                .onDenied(new Action() {
+        mPhotoAdapter = new PhotoAdapter(this, selectedPhotos, MAX_COUNT);
+        mPhotoAdapter.setOnAddClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        Toast.makeText(MainActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onClick(View v) {
+                PhotoPicker.builder()
+                        .setPhotoCount(MAX_COUNT)
+                        .setShowCamera(true)
+                        .setPreviewEnabled(false)
+                        .setSelected(selectedPhotos)
+                        .start(MainActivity.this, EXTRA_PICK);
+            }
 
-                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
-                            mPermissionSetting.showSetting(permissions);
-                        }
-                    }
+        });
+        mPhotoAdapter.setOnPhotoClickListener(new OnPhotoClickListener() {
 
-                })
-                .start();
+            @Override
+            public void onClick(View v, int position, boolean showCamera) {
+                PhotoPreview.builder()
+                        .setPhotos(selectedPhotos)
+                        .setCurrentItem(position)
+                        .start(MainActivity.this, EXTRA_PREVIEW);
+            }
 
+        });
+    }
+
+    private void initView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        photoAdapter = new PhotoAdapter(this, selectedPhotos);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView.setAdapter(photoAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, SPAN_COUNT));
+        recyclerView.setAdapter(mPhotoAdapter);
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 
@@ -112,63 +162,25 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(View view, int position) {
-                if (photoAdapter.getItemViewType(position) == PhotoAdapter.TYPE_ADD) {
-                    PhotoPicker.builder()
-                            .setPhotoCount(PhotoAdapter.MAX)
-                            .setShowCamera(true)
-                            .setPreviewEnabled(false)
-                            .setSelected(selectedPhotos)
-                            .start(MainActivity.this, EXTRA_PICK);
-
-                } else {
-                    PhotoPreview.builder()
-                            .setPhotos(selectedPhotos)
-                            .setCurrentItem(position)
-                            .start(MainActivity.this, EXTRA_PREVIEW);
-                }
-            }
-
-        }));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
+    private void requestPermission() {
+        AndPermission.with(this)
+                .permission(Permission.Group.STORAGE, Permission.Group.CAMERA)
+                .rationale(mRationale)
+                .onDenied(new Action() {
 
-            case EXTRA_PICK: {
-                if (resultCode == RESULT_OK) {
-                    List<String> photos = data.getStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
-                    selectedPhotos.clear();
-                    if (photos != null) {
-                        selectedPhotos.addAll(photos);
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        Toast.makeText(MainActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+                        if (AndPermission.hasAlwaysDeniedPermission(MainActivity.this, permissions)) {
+                            mPermissionSetting.showSetting(permissions);
+                        }
                     }
-                    photoAdapter.notifyDataSetChanged();
-                }
-            }
-            break;
 
-            case EXTRA_PREVIEW: {
-                if (resultCode == RESULT_OK) {
-                    List<String> photos = data.getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
-                    selectedPhotos.clear();
-                    if (photos != null) {
-                        selectedPhotos.addAll(photos);
-                    }
-                    photoAdapter.notifyDataSetChanged();
-                }
-            }
-            break;
-
-            default:
-                break;
-
-        }
+                })
+                .start();
     }
 
 }

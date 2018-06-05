@@ -64,8 +64,8 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layout = mInflater.inflate(R.layout.picker_item_grid_photo, parent, false);
-        return new ViewHolder(layout);
+        View itemView = mInflater.inflate(R.layout.picker_item_grid_photo, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override

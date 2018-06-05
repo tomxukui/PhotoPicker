@@ -13,89 +13,122 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
+import me.iwf.photopicker.event.OnPhotoClickListener;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
 
-/**
- * Created by donglua on 15/5/31.
- */
-public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
-    private ArrayList<String> photoPaths;
-    private LayoutInflater inflater;
+    private final static int TYPE_ADD = 1;
+    private final static int TYPE_PHOTO = 2;
 
-    private Context mContext;
+    private LayoutInflater mInflater;
 
-    final static int TYPE_ADD = 1;
-    final static int TYPE_PHOTO = 2;
-    final static int MAX = 9;
+    private List<String> mPhotos;
+    private int mMaxCount;
+    private OnPhotoClickListener mOnPhotoClickListener;
+    private View.OnClickListener mOnAddClickListener;
 
-    public PhotoAdapter(Context mContext, ArrayList<String> photoPaths) {
-        this.photoPaths = photoPaths;
-        this.mContext = mContext;
-        inflater = LayoutInflater.from(mContext);
+    public PhotoAdapter(Context context, List<String> photos, int maxCount) {
+        mInflater = LayoutInflater.from(context);
+        mPhotos = (photos == null ? new ArrayList<String>() : photos);
+        mMaxCount = maxCount;
     }
 
     @Override
-    public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = null;
-        switch (viewType) {
-            case TYPE_ADD:
-                itemView = inflater.inflate(R.layout.item_add, parent, false);
-                break;
-            case TYPE_PHOTO:
-                itemView = inflater.inflate(R.layout.item_grid_photo, parent, false);
-                break;
-        }
-        return new PhotoViewHolder(itemView);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(R.layout.item_grid_photo, parent, false);
+        return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
-        if (getItemViewType(position) == TYPE_PHOTO) {
-            Uri uri = Uri.fromFile(new File(photoPaths.get(position)));
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        int type = getItemViewType(position);
 
-            if (AndroidLifecycleUtils.canLoadImage(holder.iv_photo)) {
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .error(R.mipmap.picker_ic_empty);
+        switch (type) {
 
-                Glide.with(mContext)
-                        .load(uri)
-                        .apply(options)
-                        .thumbnail(0.1f)
-                        .into(holder.iv_photo);
+            case TYPE_ADD: {
+                holder.iv_photo.setImageResource(R.mipmap.ic_add);
+                holder.iv_photo.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnAddClickListener != null) {
+                            mOnAddClickListener.onClick(holder.iv_photo);
+                        }
+                    }
+
+                });
             }
+            break;
+
+            case TYPE_PHOTO: {
+                Uri uri = Uri.fromFile(new File(mPhotos.get(position)));
+
+                if (AndroidLifecycleUtils.canLoadImage(holder.iv_photo)) {
+                    RequestOptions options = new RequestOptions()
+                            .centerCrop()
+                            .error(R.mipmap.picker_ic_empty);
+
+                    Glide.with(holder.iv_photo)
+                            .load(uri)
+                            .apply(options)
+                            .thumbnail(0.1f)
+                            .into(holder.iv_photo);
+                }
+
+                holder.iv_photo.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        if (mOnPhotoClickListener != null) {
+                            mOnPhotoClickListener.onClick(holder.iv_photo, position, false);
+                        }
+                    }
+
+                });
+            }
+            break;
+
+            default:
+                break;
+
         }
+
     }
 
     @Override
     public int getItemCount() {
-        int count = photoPaths.size() + 1;
-        if (count > MAX) {
-            count = MAX;
+        int count = mPhotos.size() + 1;
+        if (count > mMaxCount) {
+            count = mMaxCount;
         }
         return count;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == photoPaths.size() && position != MAX) ? TYPE_ADD : TYPE_PHOTO;
+        return (position == mPhotos.size() && position != mMaxCount) ? TYPE_ADD : TYPE_PHOTO;
     }
 
-    public static class PhotoViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView iv_photo;
-        private View iv_selector;
+        ImageView iv_photo;
 
-        public PhotoViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             iv_photo = itemView.findViewById(R.id.iv_photo);
-            iv_selector = itemView.findViewById(R.id.iv_selector);
-            if (iv_selector != null) {
-                iv_selector.setVisibility(View.GONE);
-            }
         }
+
+    }
+
+    public void setOnPhotoClickListener(OnPhotoClickListener listener) {
+        mOnPhotoClickListener = listener;
+    }
+
+    public void setOnAddClickListener(View.OnClickListener listener) {
+        mOnAddClickListener = listener;
     }
 
 }
