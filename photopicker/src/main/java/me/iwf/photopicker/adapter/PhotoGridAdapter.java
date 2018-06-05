@@ -163,6 +163,12 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
         return showCamera() ? (photosCount + 1) : photosCount;
     }
 
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        mGlide.clear(holder.iv_photo);
+        super.onViewRecycled(holder);
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView iv_photo;
@@ -208,12 +214,6 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
 
     public boolean showCamera() {
         return (mHasCamera && currentDirectoryIndex == MediaStoreHelper.INDEX_ALL_PHOTOS);
-    }
-
-    @Override
-    public void onViewRecycled(ViewHolder holder) {
-        mGlide.clear(holder.iv_photo);
-        super.onViewRecycled(holder);
     }
 
 }
