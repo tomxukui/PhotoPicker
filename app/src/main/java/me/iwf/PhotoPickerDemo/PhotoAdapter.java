@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
@@ -71,7 +70,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                             .centerCrop()
                             .error(R.mipmap.picker_ic_empty);
 
-                    Glide.with(holder.iv_photo)
+                    GlideApp.with(holder.iv_photo)
                             .load(uri)
                             .apply(options)
                             .thumbnail(0.1f)
