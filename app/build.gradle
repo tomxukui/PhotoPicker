@@ -24,15 +24,9 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["recyclerview-v7"]
     implementation rootProject.ext.dependencies["design"]
-
     implementation project(':photopicker')
-
     implementation 'com.yanzhenjie:permission:2.0.0-rc4'
     implementation 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
-
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-    implementation("com.github.bumptech.glide:recyclerview-integration:4.7.1") {
-        transitive = false
-    }
 }
