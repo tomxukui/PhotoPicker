@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import me.iwf.photopicker.ui.PhotoPickerActivity;
