@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,13 +86,13 @@ public class PhotoPickerActivity extends AppCompatActivity {
         }
 
         if (item.getItemId() == R.id.action_done) {
-            ArrayList<String> selectedPhotos = mPhotoGridAdapter.getSelectedPhotoPaths();
+            List<String> selectedPhotos = mPhotoGridAdapter.getSelectedPhotoPaths();
             if (selectedPhotos == null) {
                 selectedPhotos = new ArrayList<>();
             }
 
             Intent intent = new Intent();
-            intent.putStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS, selectedPhotos);
+            intent.putExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS, (Serializable) selectedPhotos);
             setResult(RESULT_OK, intent);
             finish();
             return true;

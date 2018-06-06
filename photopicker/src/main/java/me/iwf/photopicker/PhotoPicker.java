@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.iwf.photopicker.ui.PhotoPickerActivity;
 
@@ -59,8 +61,8 @@ public class PhotoPicker {
             return this;
         }
 
-        public PhotoPickerBuilder setSelected(ArrayList<String> imagesUri) {
-            mBundle.putStringArrayList(EXTRA_ORIGINAL_PHOTOS, imagesUri);
+        public PhotoPickerBuilder setSelected(List<String> imagesUri) {
+            mBundle.putSerializable(EXTRA_ORIGINAL_PHOTOS, (Serializable) imagesUri);
             return this;
         }
 

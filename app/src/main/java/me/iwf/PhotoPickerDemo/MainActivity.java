@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PhotoAdapter mPhotoAdapter;
 
-    private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private List<String> mPhotos = new ArrayList<>();
     private Rationale mRationale;
     private PermissionSetting mPermissionSetting;
 
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
             case EXTRA_PICK: {
                 if (resultCode == RESULT_OK) {
                     List<String> photos = (List<String>) data.getSerializableExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
-                    selectedPhotos.clear();
+                    mPhotos.clear();
                     if (photos != null) {
-                        selectedPhotos.addAll(photos);
+                        mPhotos.addAll(photos);
                     }
                     mPhotoAdapter.notifyDataSetChanged();
                 }
@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
             case EXTRA_PREVIEW: {
                 if (resultCode == RESULT_OK) {
                     List<String> photos = (List<String>) data.getSerializableExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
-                    selectedPhotos.clear();
+                    mPhotos.clear();
                     if (photos != null) {
-                        selectedPhotos.addAll(photos);
+                        mPhotos.addAll(photos);
                     }
                     mPhotoAdapter.notifyDataSetChanged();
                 }
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mRationale = new DefaultRationale();
         mPermissionSetting = new PermissionSetting(this);
 
-        mPhotoAdapter = new PhotoAdapter(this, selectedPhotos, MAX_COUNT);
+        mPhotoAdapter = new PhotoAdapter(this, mPhotos, MAX_COUNT);
         mPhotoAdapter.setOnAddClickListener(new View.OnClickListener() {
 
             @Override
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                         .setGridColumnCount(SPAN_COUNT)
                         .setShowCamera(true)
                         .setPreviewEnabled(true)
-                        .setSelected(selectedPhotos)
+                        .setSelected(mPhotos)
                         .start(MainActivity.this, EXTRA_PICK);
             }
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v, int position, boolean showCamera) {
                 PhotoPreview.builder()
-                        .setPhotos(selectedPhotos)
+                        .setPhotos(mPhotos)
                         .setCurrentItem(position)
                         .start(MainActivity.this, EXTRA_PREVIEW);
             }

@@ -193,8 +193,8 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
         mOnCameraClickListener = onCameraClickListener;
     }
 
-    public ArrayList<String> getSelectedPhotoPaths() {
-        ArrayList<String> selectedPhotoPaths = new ArrayList<>(getSelectedItemCount());
+    public List<String> getSelectedPhotoPaths() {
+        List<String> selectedPhotoPaths = new ArrayList<>(getSelectedItemCount());
 
         for (String photo : mSelectedPhotos) {
             selectedPhotoPaths.add(photo);
