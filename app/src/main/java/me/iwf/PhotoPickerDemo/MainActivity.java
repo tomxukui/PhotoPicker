@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
             case EXTRA_PICK: {
                 if (resultCode == RESULT_OK) {
-                    List<String> photos = data.getStringArrayListExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
+                    List<String> photos = (List<String>) data.getSerializableExtra(PhotoPicker.EXTRA_SELECTED_PHOTOS);
                     selectedPhotos.clear();
                     if (photos != null) {
                         selectedPhotos.addAll(photos);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
             case EXTRA_PREVIEW: {
                 if (resultCode == RESULT_OK) {
-                    List<String> photos = data.getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
+                    List<String> photos = (List<String>) data.getSerializableExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
                     selectedPhotos.clear();
                     if (photos != null) {
                         selectedPhotos.addAll(photos);

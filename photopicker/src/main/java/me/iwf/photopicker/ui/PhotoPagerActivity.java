@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.iwf.photopicker.PhotoPreview;
 import me.iwf.photopicker.R;
@@ -29,7 +31,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     private PhotoPagerAdapter mPagerAdapter;
 
     private int mCurrentIndex;
-    private ArrayList<String> mPhotoPaths;
+    private List<String> mPhotoPaths;
     private boolean mShowDelete;
 
     @Override
@@ -57,7 +59,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(PhotoPreview.EXTRA_PHOTO_PATHS, mPhotoPaths);
+        intent.putExtra(PhotoPreview.EXTRA_PHOTO_PATHS, (Serializable) mPhotoPaths);
         setResult(RESULT_OK, intent);
         super.finish();
     }
@@ -95,7 +97,7 @@ public class PhotoPagerActivity extends AppCompatActivity {
 
     private void initData() {
         mCurrentIndex = getIntent().getIntExtra(PhotoPreview.EXTRA_CURRENT_ITEM, 0);
-        mPhotoPaths = getIntent().getStringArrayListExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
+        mPhotoPaths = (List<String>) getIntent().getSerializableExtra(PhotoPreview.EXTRA_PHOTO_PATHS);
         mShowDelete = getIntent().getBooleanExtra(PhotoPreview.EXTRA_SHOW_DELETE, true);
         if (mPhotoPaths == null) {
             mPhotoPaths = new ArrayList<>();

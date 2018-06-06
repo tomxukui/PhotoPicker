@@ -41,7 +41,7 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.ViewHol
     private OnPhotoClickListener mOnPhotoClickListener;
     private View.OnClickListener mOnCameraClickListener;
 
-    public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> directories, ArrayList<String> photos, int colNum) {
+    public PhotoGridAdapter(Context context, RequestManager requestManager, List<PhotoDirectory> directories, List<String> photos, int colNum) {
         mInflater = LayoutInflater.from(context);
         mGlide = requestManager;
 

@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 import me.iwf.photopicker.ui.PhotoPagerActivity;
 
@@ -28,8 +29,8 @@ public class PhotoPreview {
             mBundle = new Bundle();
         }
 
-        public PhotoPreviewBuilder setPhotos(ArrayList<String> photoPaths) {
-            mBundle.putStringArrayList(EXTRA_PHOTO_PATHS, photoPaths);
+        public PhotoPreviewBuilder setPhotos(List<String> photoPaths) {
+            mBundle.putSerializable(EXTRA_PHOTO_PATHS, (Serializable) photoPaths);
             return this;
         }
 

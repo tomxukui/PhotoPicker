@@ -54,7 +54,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
     private ImageCaptureManager mCaptureManager;
 
     private List<PhotoDirectory> mDirectories;
-    private ArrayList<String> mOriginalPhotos;
+    private List<String> mOriginalPhotos;
 
     private boolean mShowCamera;
     private boolean mShowGif;
@@ -143,7 +143,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
         mPreviewEnabled = getIntent().getBooleanExtra(PhotoPicker.EXTRA_PREVIEW_ENABLED, true);
         mMaxCount = getIntent().getIntExtra(PhotoPicker.EXTRA_MAX_COUNT, MAX_COUNT);
         mColumnNumber = getIntent().getIntExtra(PhotoPicker.EXTRA_GRID_COLUMN, COLUMN_NUMBER);
-        mOriginalPhotos = getIntent().getStringArrayListExtra(PhotoPicker.EXTRA_ORIGINAL_PHOTOS);
+        mOriginalPhotos = (List<String>) getIntent().getSerializableExtra(PhotoPicker.EXTRA_ORIGINAL_PHOTOS);
 
         mGlideRequestManager = Glide.with(this);
         mDirectories = new ArrayList<>();
